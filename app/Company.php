@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
-    protected $table = 'companies';
-    protected $primaryKey = 'id';
-    protected $fillable = ['uniform', 'name', 'phone'];
+    //統一編號 公司名稱 電話
+    protected $fillable = ['uniform', 'companyName', 'phone'];
 
+    //一名公司有多名員工
     public function members()
     {
         return $this->hasMany('App\Member');

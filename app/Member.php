@@ -2,19 +2,27 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Member extends Model
+class Member extends Authenticatable
 {
-    protected $table = 'members';
-    protected $primaryKey = 'id';
-    protected $fillable = ['email', 'name', 'pawd', 'phone', 'company_id'];
-    protected $hidden = ['pawd', 'remember_token'];
+    use Notifiable;
+    protected $guard = 'member';
 
+    //信箱 姓名 密碼 電話 隸屬公司
+    protected $fillable = ['email', 'name', 'password', 'phone', 'company_id'];
+
+    //查詢時不顯示 密碼 token
+    protected $hidden = ['password', 'remember_token'];
+
+    //一名員工有多個角色
     public function roles()
     {
         return $this->belongsToMany('App\Role');
     }
+
+    //一名員工只隸屬於一間公司
     public function company()
     {
         return $this->belongsTo('App\Company');

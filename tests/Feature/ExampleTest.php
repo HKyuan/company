@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ExampleTest extends TestCase
 {
@@ -17,5 +16,18 @@ class ExampleTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
+    }
+
+    public function testheaders()
+    {
+
+        $response = $this->get('/company/1');
+
+        $response->assertForbidden();
+
+        $response->dumpHeaders();
+
+        $response->dump();
+
     }
 }

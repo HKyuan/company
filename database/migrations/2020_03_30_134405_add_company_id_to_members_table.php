@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompaniesTable extends Migration
+class AddCompanyIdToMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateCompaniesTable extends Migration
      */
     public function up()
     {
-        Schema::create('companies', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('uniform');
-            $table->string('companyName');
-            $table->string('phone');
-            $table->timestamps();
+        Schema::table('members', function (Blueprint $table) {
+            $table->unsignedBigInteger('company_id')->after('phone');
+            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 
@@ -29,6 +26,8 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::table('members', function (Blueprint $table) {
+            //
+        });
     }
 }

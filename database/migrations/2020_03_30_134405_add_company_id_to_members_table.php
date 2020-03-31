@@ -14,7 +14,7 @@ class AddCompanyIdToMembersTable extends Migration
     public function up()
     {
         Schema::table('members', function (Blueprint $table) {
-            $table->unsignedBigInteger('company_id')->after('phone');
+            $table->uuid('company_id')->after('phone');
             $table->foreign('company_id')->references('id')->on('companies');
         });
     }

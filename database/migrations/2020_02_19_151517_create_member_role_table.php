@@ -14,10 +14,10 @@ class CreateMemberRoleTable extends Migration
     public function up()
     {
         Schema::create('member_role', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('member_id');
+            $table->uuid('id')->primary();
+            $table->uuid('member_id');
             $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedBigInteger('role_id');
+            $table->uuid('role_id');
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

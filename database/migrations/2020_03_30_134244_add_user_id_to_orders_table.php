@@ -14,7 +14,7 @@ class AddUserIdToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->after('paid');
+            $table->uuid('user_id')->after('paid');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

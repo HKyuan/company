@@ -14,7 +14,7 @@ class AddCompanyIdToProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->unsignedBigInteger('company_id')->after('price');
+            $table->uuid('company_id')->after('price');
             $table->foreign('company_id')->references('id')->on('companies');
         });
     }

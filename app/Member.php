@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Webpatser\Uuid\Uuid;
 
 class Member extends Authenticatable
 {
@@ -15,6 +16,24 @@ class Member extends Authenticatable
 
     //查詢時不顯示 密碼 token
     protected $hidden = ['password', 'remember_token'];
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($member) {
+            $member->id = (string) Uuid::generate(4);
+        });
+    }
+
+    public function getKeyType()
+    {
+        return 'string';
+    }
+
+    public function getIncrementing()
+    {
+        return false;
+    }
 
     //一名員工有多個角色
     public function roles()

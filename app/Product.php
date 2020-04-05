@@ -12,6 +12,8 @@ class Product extends Model
     protected $fillable =
         ['productName', 'description', 'amount', 'price', 'company_id'];
 
+    public $incrementing = false;
+
     public static function boot()
     {
         parent::boot();
@@ -20,20 +22,10 @@ class Product extends Model
         });
     }
 
-    public function getKeyType()
-    {
-        return 'string';
-    }
-
-    public function getIncrementing()
-    {
-        return false;
-    }
-
     // 一項產品出現在很多訂單當中
     public function orders()
     {
-        return $this->belongsToMany('App\Order');
+        return $this->belongsToMany('App\Order')->withTimestamps();
     }
 
     // 一項產品隸屬一家公司

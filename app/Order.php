@@ -10,6 +10,10 @@ class Order extends Model
     //訂單編號 總數量 總價格 是否付款
     protected $fillable = ['amount', 'price', 'paid', 'user_id'];
 
+    protected $casts = ['id' => 'string'];
+
+    public $incrementing = false;
+
     public static function boot()
     {
         parent::boot();
@@ -18,20 +22,10 @@ class Order extends Model
         });
     }
 
-    public function getKeyType()
-    {
-        return 'string';
-    }
-
-    public function getIncrementing()
-    {
-        return false;
-    }
-
     //一筆訂單會有很多產品
     public function products()
     {
-        return $this->belongsToMany('App\Product');
+        return $this->belongsToMany('App\Product')->withTimestamps();
     }
 
     //一筆訂單由一位使用者產生

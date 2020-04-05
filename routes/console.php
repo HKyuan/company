@@ -1,8 +1,9 @@
 <?php
 
 use App\Order;
-use App\User;
+use App\Product;
 use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,7 @@ Artisan::command('inspire', function () {
 })->describe('Display an inspiring quote');
 
 Artisan::command('database', function () {
-    $user = User::first();
+    $product = Product::first();
     $order = Order::first();
-    dd($user);
+    dd($product->id);
 });

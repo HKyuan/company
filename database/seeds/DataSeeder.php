@@ -20,7 +20,6 @@ class DataSeeder extends Seeder
         factory('App\Company')->create();
 
         $company = Company::first();
-
         Product::create([
             'productName' => 'Bang',
             'description' => 'This is a product',

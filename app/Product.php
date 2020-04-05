@@ -12,6 +12,8 @@ class Product extends Model
     protected $fillable =
         ['productName', 'description', 'amount', 'price', 'company_id'];
 
+    protected $casts = ['id' => 'string'];
+
     public $incrementing = false;
 
     public static function boot()

@@ -10,22 +10,16 @@ class Role extends Model
     //職位 部門
     protected $fillable = ['title', 'dept'];
 
+    protected $casts = ['id' => 'string'];
+
+    public $incrementing = false;
+
     public static function boot()
     {
         parent::boot();
         self::creating(function ($role) {
             $role->id = (string) Uuid::generate(4);
         });
-    }
-
-    public function getKeyType()
-    {
-        return 'string';
-    }
-
-    public function getIncrementing()
-    {
-        return false;
     }
 
     // 一個角色可以被分配給多個員工

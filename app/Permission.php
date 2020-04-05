@@ -10,6 +10,10 @@ class Permission extends Model
     //權限 權限描述
     protected $fillable = ['right', 'description'];
 
+    protected $casts = ['id' => 'string'];
+
+    public $incrementing = false;
+
     public static function boot()
     {
         parent::boot();
@@ -18,15 +22,6 @@ class Permission extends Model
         });
     }
 
-    public function getKeyType()
-    {
-        return 'string';
-    }
-
-    public function getIncrementing()
-    {
-        return false;
-    }
     //一個權限會有被多個角色使用
     public function roles()
     {

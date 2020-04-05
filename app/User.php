@@ -35,7 +35,10 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'id' => 'string',
     ];
+
+    public $incrementing = false;
 
     public static function boot()
     {
@@ -43,16 +46,6 @@ class User extends Authenticatable
         self::creating(function ($user) {
             $user->id = (string) Uuid::generate(4);
         });
-    }
-
-    public function getKeyType()
-    {
-        return 'string';
-    }
-
-    public function getIncrementing()
-    {
-        return false;
     }
 
     //一名使用者會有多筆訂單

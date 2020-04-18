@@ -1,6 +1,10 @@
 <?php
 
 use App\Company;
+use App\Member;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,35 +17,39 @@ use App\Company;
 |
  */
 
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('welcome');
-})->name('page');
+})->name('home');
 
-Route::get('/login', function () {
-    $name = 'Esperanza VonRueden';
-    $email = 'godfrey.willms@example.com';
-    $password = 'password';
-    $memberName = 'jamarcus16';
-    $memberEmail = 'grimes.van@yahoo.com';
-    // Auth::guard('member')->attempt(['name' => $memberName, 'password' => $password]);
-    Auth::attempt(['name' => $memberName, 'password' => $password]);
-    // $memberAuth = Auth::guard('member');
+// 一個瀏覽器不允許同時寫入兩個 session
+Route::get('/logins', function () {
+    $user = User::first();
+    // Auth::attempt(['name' => $user->name, 'password' => 'password']);
+    $member = Member::first();
+    Auth::guard('member')->attempt(['name' => $member->name, 'password' => 'password']);
+    // dump(Auth::guard('member')->user());
+    // dump(Auth::user());
     // dump($memberAuth->user()->id);
     // dump($memberAuth->user()->company()->first()->name);
-    // return Auth::guard('member')->check() ? 'Yes' : 'No';
-    return Auth::check() ? 'Yes' : 'No';
-    // dump(Auth::user());
+    // dump(Auth::guard('member')->check());
+    // dump(Auth::check());
+    // return redirect()->intended('/user');
+    // return response()->json(['message' => 'successful login'], 200);
+    // dump(Auth::id());
+    // dump(Auth::guard('member')->user()->id);
 });
 
-Route::get('/logout', function () {
-    // $email = 'zulauf.krystina@example.org';
-    // $password = 'password';
-    Auth::guard('member')->logout();
-    Auth::logout();
-    // dump(Auth::guard('member'));
-    // dump(Auth::User());
-    return Auth::check() ? 'Yes' : 'No';
-    return Auth::guard('member')->check() ? 'Yes' : 'No';
+Route::get('/user', function (Request $request) {
+    // dump(Auth::user());
+    dump(Auth::guard('member')->user()->id);
+    // dump(Auth::user()->id);
+    return response()->json(['checked' => Auth::guard('member')->check()], 200);
+    // dump(Auth::user());
+    // Auth::guard('member')->logout();
+    // Auth::logout();
+    // dump(Auth::check());
+    // return Auth::check() ? 'Yes' : 'No';
+    // return Auth::guard('member')->check() ? 'Yes' : 'No';
 });
 
 Auth::routes();

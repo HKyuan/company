@@ -25,6 +25,6 @@ class Permission extends Model
     //一個權限會有被多個角色使用
     public function roles()
     {
-        return $this->belongsToMany('App\Role');
+        return $this->belongsToMany('App\Role')->using('App\Permission_Role');
     }
 }

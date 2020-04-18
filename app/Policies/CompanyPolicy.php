@@ -6,10 +6,19 @@ use App\Company;
 use App\Member;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyPolicy
 {
     use HandlesAuthorization;
+
+    protected $member;
+
+    //using multiple guard app only using default guard
+    public function __construct()
+    {
+        $this->member = Auth::guard('member');
+    }
 
     /**
      * Determine whether the user can view any companies.
@@ -19,13 +28,8 @@ class CompanyPolicy
      */
     public function viewAny(User $user)
     {
-        // $member = Auth::guard('member')->user();
-
-        // if (Auth::guard('member')->check()) {
-        //     return $member->roles->find($member->id)->permissions->where('right', 'read')->first()->right === 'read';
-        // }
-        // return $member->roles->find($member->id)->permissions->where('right', 'read')->first()->right === 'read';
-        // return $user->roles->find($user->id)->permissions->where('right', 'read')->first()->right === 'read';
+        return true;
+        // return $this->member->check();
     }
 
     /**
@@ -35,10 +39,10 @@ class CompanyPolicy
      * @param  \App\Company  $company
      * @return mixed
      */
-    public function view(Member $member, Company $company)
+    public function view(User $user, Company $company)
     {
-        return $member->id == 1;
-        // dd($member);
+        return true;
+        // return $this->member->check();
     }
 
     /**

@@ -9,6 +9,7 @@ use Webpatser\Uuid\Uuid;
 class Member extends Authenticatable
 {
     use Notifiable;
+
     protected $guard = 'member';
 
     //信箱 姓名 密碼 電話 隸屬公司

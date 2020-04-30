@@ -2,8 +2,10 @@
 
 namespace App;
 
+use App\RelationPivot;
+use App\Role;
 use Illuminate\Database\Eloquent\Model;
-use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Str;
 
 class Permission extends Model
 {
@@ -18,13 +20,13 @@ class Permission extends Model
     {
         parent::boot();
         self::creating(function ($permission) {
-            $permission->id = (string) Uuid::generate(4);
+            $permission->id = (string) Str::uuid();
         });
     }
 
     //一個權限會有被多個角色使用
     public function roles()
     {
-        return $this->belongsToMany('App\Role')->using('App\Permission_Role');
+        return $this->belongsToMany(Role::class)->withTimestamps()->using(RelationPivot::class);
     }
 }

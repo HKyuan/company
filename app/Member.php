@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Company;
+use App\RelationPivot;
+use App\Role;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Webpatser\Uuid\Uuid;
 
 class Member extends Authenticatable
 {
@@ -26,19 +28,19 @@ class Member extends Authenticatable
     {
         parent::boot();
         self::creating(function ($member) {
-            $member->id = (string) Uuid::generate(4);
+            $member->id = (string) Str::uuid();
         });
     }
 
     //一名員工有多個角色
     public function roles()
     {
-        return $this->belongsToMany('App\Role');
+        return $this->belongsToMany(Role::class)->withTimestamps()->using(RelationPivot::class);
     }
 
     //一名員工只隸屬於一間公司
     public function company()
     {
-        return $this->belongsTo('App\Company');
+        return $this->belongsTo(Company::class);
     }
 }

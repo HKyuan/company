@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Order;
+use App\RelationPivot;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -44,13 +46,13 @@ class User extends Authenticatable
     {
         parent::boot();
         self::creating(function ($user) {
-            $user->id = (string) Uuid::generate(4);
+            $user->id = (string) Str::uuid();
         });
     }
 
     //一名使用者會有多筆訂單
     public function orders()
     {
-        return $this->belongsToMany('App\Order');
+        return $this->belongsToMany(Order::class)->withTimestamps()->using(RelationPivot::class);
     }
 }

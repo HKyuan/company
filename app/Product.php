@@ -2,8 +2,11 @@
 
 namespace App;
 
+use App\Company;
+use App\Order;
+use App\RelationPivot;
 use Illuminate\Database\Eloquent\Model;
-use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -20,19 +23,19 @@ class Product extends Model
     {
         parent::boot();
         self::creating(function ($product) {
-            $product->id = (string) Uuid::generate(4);
+            $product->id = (string) Str::uuid();
         });
     }
 
     // 一項產品出現在很多訂單當中
     public function orders()
     {
-        return $this->belongsToMany('App\Order')->withTimestamps();
+        return $this->belongsToMany(Order::class)->withTimestamps()->using(RelationPivot::class);
     }
 
     // 一項產品隸屬一家公司
     public function company()
     {
-        return $this->belongsTo('App\Company');
+        return $this->belongsTo(Company::class);
     }
 }

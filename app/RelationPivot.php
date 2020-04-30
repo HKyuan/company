@@ -3,9 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
-use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Str;
 
-class Permission_Role extends Pivot
+class RelationPivot extends Pivot
 {
     protected $casts = ['id' => 'string'];
 
@@ -14,8 +14,8 @@ class Permission_Role extends Pivot
     public static function boot()
     {
         parent::boot();
-        self::creating(function ($pr) {
-            $pr->id = (string) Uuid::generate(4);
+        self::creating(function ($rp) {
+            $rp->id = (string) Str::uuid();
         });
     }
 }

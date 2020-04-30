@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Str;
 
 class Company extends Model
 {
@@ -18,13 +18,13 @@ class Company extends Model
     {
         parent::boot();
         self::creating(function ($company) {
-            $company->id = (string) Uuid::generate(4);
+            $company->id = (string) Str::uuid();
         });
     }
 
     //一名公司有多名員工
     public function members()
     {
-        return $this->hasMany('App\Member');
+        return $this->hasMany(Member::class);
     }
 }
